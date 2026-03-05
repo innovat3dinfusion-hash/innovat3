@@ -872,8 +872,8 @@ async function submitOrder() {
     priceEst: document.getElementById('priceVal').textContent
   };
   var wm = encodeURIComponent('\uD83D\uDDA8 *NEW INNOVAT3 ORDER*\nRef: ' + ref + '\n\uD83D\uDC64 ' + p.name + ' \u00b7 ' + p.phone + '\n\uD83E\uDDF1 ' + p.material + ' \u00b7 ' + p.colour + '\n\uD83D\uDCB0 ' + p.priceEst + '\n\uD83D\uDCE7 ' + p.email);
-  // Send to Google Sheets
-  try { await fetch(GS, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p) }); } catch(e) {}
+  // Send to Google Sheets (fire and forget — don't await so UI isn't blocked)
+  try { fetch(GS, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p) }); } catch(e) {}
 
   document.getElementById('conf-phone').textContent = p.phone;
   document.getElementById('conf-email').textContent = p.email;
