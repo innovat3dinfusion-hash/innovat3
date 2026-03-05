@@ -343,20 +343,7 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
 .mc-slot.active{border-color:var(--orange);border-width:3px;}
 
 
-/* ── contact split ── */
-.contact-split{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:420px;margin:-44px;overflow:visible;border-radius:4px;}
-.contact-img-wrap{position:relative;overflow:hidden;}
-.contact-img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;transition:transform .5s ease;}
-.contact-img-wrap:hover .contact-img{transform:scale(1.04);}
-.contact-img-overlay{position:absolute;bottom:0;left:0;right:0;padding:22px 18px;background:linear-gradient(to top,rgba(8,8,8,.92) 0%,rgba(8,8,8,.4) 60%,transparent 100%);pointer-events:none;}
-.contact-img-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--orange);border:1px solid rgba(249,115,22,.4);display:inline-block;padding:4px 10px;border-radius:2px;margin-bottom:8px;}
-.contact-img-caption{font-size:13px;color:rgba(245,245,240,.8);line-height:1.6;}
-.contact-fields{padding:36px;display:flex;flex-direction:column;gap:14px;justify-content:center;position:relative;z-index:2;}
-@media(max-width:960px){
-  .contact-split{grid-template-columns:1fr;margin:-22px -16px;overflow:visible;}
-  .contact-img-wrap{height:220px;}
-  .contact-fields{padding:20px 16px;}
-}
+
 
 </style>
 <body>
@@ -410,29 +397,19 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
 
       <!-- STEP 1: CONTACT -->
       <div class="panel active" id="p1">
-        <div class="contact-split">
-          <div class="contact-img-wrap">
-            <img src="city.jpg" alt="Gizmo in the city" class="contact-img">
-            <div class="contact-img-overlay">
-              <div class="contact-img-tag">&#x1F4F1; ORDER FROM ANYWHERE</div>
-              <p class="contact-img-caption">Fill in your details and we&rsquo;ll handle the rest.</p>
-            </div>
-          </div>
-          <div class="contact-fields">
-            <div class="ptitle"><h2>Your <em>Contact</em> Details</h2><p>We&rsquo;ll send your quote and updates here</p></div>
-            <div class="fld"><label>Full Name *</label><input type="text" id="c-name" placeholder="e.g. Sipho Nkosi"></div>
-            <div class="fld"><label>Email Address *</label><input type="email" id="c-email" placeholder="you@example.com"></div>
-            <div class="fld"><label>WhatsApp / Phone *</label><input type="tel" id="c-phone" placeholder="+27 82 000 0000"></div>
-            <div class="fld"><label>Company / Project</label><input type="text" id="c-company" placeholder="Optional"></div>
-            <div class="fld"><label>Delivery City / Area</label><input type="text" id="c-city" placeholder="e.g. Johannesburg, Sandton"></div>
-            <button class="btn-finish" onclick="goStep(2)" ontouchend="event.preventDefault();goStep(2)" style="position:relative;z-index:10;margin-top:8px;">
-              <span>NEXT: Upload Files</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </button>
-          </div>
+        <div class="ptitle"><h2>Your <em>Contact</em> Details</h2><p>We’ll send your quote and updates here</p></div>
+        <div class="g2">
+          <div class="fld"><label>Full Name *</label><input type="text" id="c-name" placeholder="e.g. Sipho Nkosi"></div>
+          <div class="fld"><label>Email Address *</label><input type="email" id="c-email" placeholder="you@example.com"></div>
+          <div class="fld"><label>WhatsApp / Phone *</label><input type="tel" id="c-phone" placeholder="+27 82 000 0000"></div>
+          <div class="fld"><label>Company / Project</label><input type="text" id="c-company" placeholder="Optional"></div>
+          <div class="fld sp2"><label>Delivery City / Area</label><input type="text" id="c-city" placeholder="e.g. Johannesburg, Sandton"></div>
         </div>
+        <button class="btn-finish" id="btnStep2" onclick="goStep(2)" ontouchend="event.preventDefault();goStep(2)" style="margin-top:24px;">
+          <span>NEXT: Upload Files</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
       </div>
-
       <!-- STEP 2: FILES -->
       <div class="panel" id="p2">
         <div class="ptitle"><h2>Upload Your <em>Files</em></h2><p>STL, OBJ, 3MF, STEP or reference images</p></div>
