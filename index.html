@@ -159,7 +159,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.97);backdrop-fil
 .prog-bar{height:2px;background:var(--border);}
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));transition:width .4s ease;width:25%;}
 
-.hero{max-width:1280px;margin:0 auto;padding:50px 40px 30px;display:grid;grid-template-columns:1fr 500px;gap:20px;align-items:flex-end;min-height:calc(100vh - 66px);overflow:hidden;}
+.hero{max-width:1280px;margin:0 auto;padding:50px 40px 30px;display:grid;grid-template-columns:1fr 500px;gap:20px;align-items:flex-end;min-height:calc(100vh - 66px);}
 .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:18px;font-family:var(--mono);font-size:10px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;}
 .eyebrow::before{content:'';width:28px;height:2px;background:var(--orange);}
 .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(48px,6vw,90px);line-height:.94;letter-spacing:-2px;margin-bottom:22px;}
@@ -182,7 +182,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.97);backdrop-fil
 /* form */
 .form-wrap{max-width:1280px;margin:0 auto;padding:0 40px 80px;position:relative;}
 .side-amb{position:absolute;right:-14px;top:40px;z-index:0;}
-.form-card{background:var(--card);border:1px solid var(--border);border-radius:4px;position:relative;overflow:hidden;}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:4px;position:relative;}
 .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--orange2),transparent 80%);}
 .ftabs{display:flex;border-bottom:1px solid var(--border);}
 .ftab{padding:16px 26px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted);cursor:pointer;border-right:1px solid var(--border);transition:all .2s;display:flex;align-items:center;gap:8px;text-transform:uppercase;}
@@ -405,7 +405,7 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
           <div class="fld"><label>Company / Project</label><input type="text" id="c-company" placeholder="Optional"></div>
           <div class="fld sp2"><label>Delivery City / Area</label><input type="text" id="c-city" placeholder="e.g. Johannesburg, Sandton"></div>
         </div>
-        <button class="btn-finish" id="btnStep2" onclick="goStep(2)" ontouchend="event.preventDefault();goStep(2)" style="margin-top:24px;">
+        <button class="btn-finish" id="btnStep2" data-step="2" style="margin-top:24px;">
           <span>NEXT: Upload Files</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
@@ -431,11 +431,11 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
           </div>
           <div style="font-size:11px;color:var(--muted);margin-top:6px;">MakerWorld &middot; Thingiverse &middot; Printables &middot; Cults3D &middot; Google Drive</div>
         </div>
-        <button class="btn-finish" onclick="goStep(3)" ontouchend="event.preventDefault();goStep(3)" style="margin-top:24px;">
+        <button class="btn-finish" data-step="3" style="margin-top:24px;">
           <span>&#x2713; DONE &mdash; NEXT: Print Specs</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
-        <div class="form-nav" style="margin-top:10px;"><button class="btn-back" onclick="goStep(1)" ontouchend="event.preventDefault();goStep(1)">&larr; BACK</button></div>
+        <div class="form-nav" style="margin-top:10px;"><button class="btn-back" data-step="1">&larr; BACK</button></div>
       </div>
 
       <!-- STEP 3: SPECS -->
@@ -532,11 +532,11 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
           </div>
         </div>
 
-        <button class="btn-finish" onclick="goStep(4)" ontouchend="event.preventDefault();goStep(4)" style="margin-top:20px;">
+        <button class="btn-finish" data-step="4" style="margin-top:20px;">
           <span>REVIEW &amp; SUBMIT</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
-        <div class="form-nav" style="margin-top:10px;"><button class="btn-back" onclick="goStep(2)" ontouchend="event.preventDefault();goStep(2)">&larr; BACK</button></div>
+        <div class="form-nav" style="margin-top:10px;"><button class="btn-back" data-step="2">&larr; BACK</button></div>
       </div>
 
       <!-- STEP 4: CONFIRM -->
@@ -544,8 +544,8 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
         <div class="ptitle"><h2>Review &amp; <em>Submit</em></h2><p>Almost there &#x2699;&#xFE0F;</p></div>
         <div style="background:#0d0d0d;border:1px solid var(--border);border-radius:4px;padding:24px;margin-bottom:20px;" id="summBox"></div>
         <div class="fld"><label>Anything else?</label><textarea id="c-extra" placeholder="Urgency, delivery notes&hellip;"></textarea></div>
-        <button class="btn-submit" id="subBtn" onclick="submitOrder()" ontouchend="event.preventDefault();submitOrder()"><span>&#x1F5A8;&#xFE0F; SUBMIT PRINT REQUEST</span><div class="spin"></div></button>
-        <div class="form-nav" style="margin-top:14px;"><button class="btn-back" onclick="goStep(3)" ontouchend="event.preventDefault();goStep(3)">&larr; BACK</button><div></div></div>
+        <button class="btn-submit" id="subBtn" data-action="submit"><span>&#x1F5A8;&#xFE0F; SUBMIT PRINT REQUEST</span><div class="spin"></div></button>
+        <div class="form-nav" style="margin-top:14px;"><button class="btn-back" data-step="3">&larr; BACK</button><div></div></div>
       </div>
 
     </div><!-- fbody -->
@@ -622,6 +622,22 @@ heroGz.addEventListener('click',function(){
 /* ── form logic ── */
 let step=1,files=[],matP=1.2,matN='PLA',colV='White';
 
+
+// ── Touch-safe navigation via event delegation ──
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('[data-step]');
+  if(btn){ e.preventDefault(); goStep(parseInt(btn.dataset.step)); }
+});
+document.addEventListener('touchend', function(e){
+  const btn = e.target.closest('[data-step]');
+  if(btn){ e.preventDefault(); goStep(parseInt(btn.dataset.step)); }
+}, {passive:false});
+document.addEventListener('click', function(e){
+  if(e.target.closest('[data-action="submit"]')){ e.preventDefault(); submitOrder(); }
+});
+document.addEventListener('touchend', function(e){
+  if(e.target.closest('[data-action="submit"]')){ e.preventDefault(); submitOrder(); }
+},{passive:false});
 
 function goStep(n){
   // read values immediately — no validation blocking on mobile
