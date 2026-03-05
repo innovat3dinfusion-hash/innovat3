@@ -449,6 +449,13 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
   .fld input,.fld select,.fld textarea{font-size:16px!important;padding:14px 15px!important;min-height:48px;}
   .btn-next,.btn-back,.btn-submit{min-height:52px;font-size:16px!important;padding:14px 24px!important;}
 }
+
+@media(max-width:960px){
+  .g4{grid-template-columns:1fr 1fr 1fr auto !important;}
+  .unit{padding:14px 10px;font-size:11px;}
+  .matgrid{grid-template-columns:repeat(3,1fr) !important;}
+}
+
 </style>
 <body>
 <div id="cur"></div><div id="curR"></div>
@@ -552,13 +559,13 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
         <div style="margin-bottom:22px">
           <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:12px;text-transform:uppercase;">Dimensions &amp; Quantity</div>
           <div class="g4">
-            <div class="fld"><label>Width (mm)</label><input type="number" id="s-w" placeholder="100" min="1" oninput="calcPrice()"></div>
-            <div class="fld"><label>Depth (mm)</label><input type="number" id="s-d" placeholder="100" min="1" oninput="calcPrice()"></div>
-            <div class="fld"><label>Height (mm)</label><input type="number" id="s-h" placeholder="100" min="1" oninput="calcPrice()"></div>
+            <div class="fld"><label>Width (mm)</label><input type="number" id="s-w" onchange="calcPrice()" placeholder="100" min="1" oninput="calcPrice()"></div>
+            <div class="fld"><label>Depth (mm)</label><input type="number" id="s-d" onchange="calcPrice()" placeholder="100" min="1" oninput="calcPrice()"></div>
+            <div class="fld"><label>Height (mm)</label><input type="number" id="s-h" onchange="calcPrice()" placeholder="100" min="1" oninput="calcPrice()"></div>
             <div class="unit">mm</div>
           </div>
           <div class="g2" style="margin-top:14px">
-            <div class="fld"><label>Quantity</label><input type="number" id="s-qty" value="1" min="1" oninput="calcPrice()"></div>
+            <div class="fld"><label>Quantity</label><input type="number" id="s-qty" onchange="calcPrice()" value="1" min="1" oninput="calcPrice()"></div>
             <div class="fld"><label>Layer Resolution</label>
               <select id="s-res" onchange="calcPrice()">
                 <option value="draft">0.6mm &mdash; Draft (Fast)</option>
@@ -574,11 +581,11 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
         <div style="margin-bottom:22px">
           <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:12px;text-transform:uppercase;">Material</div>
           <div class="matgrid">
-            <label class="matcard sel" onclick="selMat(this,'PLA',1.2)"><input type="radio" name="mat" value="PLA" checked><span class="mat-ic">&#x1F33F;</span><div class="mat-nm">PLA</div><div class="mat-ds">Standard</div><div class="mat-pr">R1.20/g</div></label>
-            <label class="matcard" onclick="selMat(this,'PETG',1.5)"><input type="radio" name="mat" value="PETG"><span class="mat-ic">&#x1F4A7;</span><div class="mat-nm">PETG</div><div class="mat-ds">Tough</div><div class="mat-pr">R1.50/g</div></label>
-            <label class="matcard" onclick="selMat(this,'ABS',1.4)"><input type="radio" name="mat" value="ABS"><span class="mat-ic">&#x1F527;</span><div class="mat-nm">ABS</div><div class="mat-ds">Heat Resist</div><div class="mat-pr">R1.40/g</div></label>
-            <label class="matcard" onclick="selMat(this,'TPU',1.8)"><input type="radio" name="mat" value="TPU"><span class="mat-ic">&#x1FAE7;</span><div class="mat-nm">TPU</div><div class="mat-ds">Flexible</div><div class="mat-pr">R1.80/g</div></label>
-            <label class="matcard" onclick="selMat(this,'Carbon',3.5)"><input type="radio" name="mat" value="Carbon"><span class="mat-ic">&#x26A1;</span><div class="mat-nm">CARBON</div><div class="mat-ds">Strong</div><div class="mat-pr">R3.50/g</div></label>
+            <label class="matcard sel" data-mat='PLA' data-matp='1.2'><input type="radio" name="mat" value="PLA" checked><span class="mat-ic">&#x1F33F;</span><div class="mat-nm">PLA</div><div class="mat-ds">Standard</div><div class="mat-pr">R1.20/g</div></label>
+            <label class="matcard" data-mat='PETG' data-matp='1.5'><input type="radio" name="mat" value="PETG"><span class="mat-ic">&#x1F4A7;</span><div class="mat-nm">PETG</div><div class="mat-ds">Tough</div><div class="mat-pr">R1.50/g</div></label>
+            <label class="matcard" data-mat='ABS' data-matp='1.4'><input type="radio" name="mat" value="ABS"><span class="mat-ic">&#x1F527;</span><div class="mat-nm">ABS</div><div class="mat-ds">Heat Resist</div><div class="mat-pr">R1.40/g</div></label>
+            <label class="matcard" data-mat='TPU' data-matp='1.8'><input type="radio" name="mat" value="TPU"><span class="mat-ic">&#x1FAE7;</span><div class="mat-nm">TPU</div><div class="mat-ds">Flexible</div><div class="mat-pr">R1.80/g</div></label>
+            <label class="matcard" data-mat='Carbon' data-matp='3.5'><input type="radio" name="mat" value="Carbon"><span class="mat-ic">&#x26A1;</span><div class="mat-nm">CARBON</div><div class="mat-ds">Strong</div><div class="mat-pr">R3.50/g</div></label>
           </div>
         </div>
 
@@ -598,16 +605,16 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
 
           <div id="singleColSection">
             <div class="swrow">
-              <div class="sw sel" style="background:#f0f0f0" data-c="White"  onclick="selCol(this)"></div>
-              <div class="sw"     style="background:#151515" data-c="Black"  onclick="selCol(this)"></div>
-              <div class="sw"     style="background:#f97316" data-c="Orange" onclick="selCol(this)"></div>
-              <div class="sw"     style="background:#dc2626" data-c="Red"    onclick="selCol(this)"></div>
-              <div class="sw"     style="background:#2563eb" data-c="Blue"   onclick="selCol(this)"></div>
-              <div class="sw"     style="background:#16a34a" data-c="Green"  onclick="selCol(this)"></div>
-              <div class="sw"     style="background:#ca8a04" data-c="Yellow" onclick="selCol(this)"></div>
-              <div class="sw"     style="background:linear-gradient(135deg,#888,#eee)" data-c="Silver" onclick="selCol(this)"></div>
-              <div class="sw-custom" onclick="document.getElementById('cpick').click()">+</div>
-              <input type="color" id="cpick" style="opacity:0;position:absolute;pointer-events:none" onchange="custCol(this.value)">
+              <div class="sw sel" style="background:#f0f0f0" data-c="White" ></div>
+              <div class="sw"     style="background:#151515" data-c="Black" ></div>
+              <div class="sw"     style="background:#f97316" data-c="Orange"></div>
+              <div class="sw"     style="background:#dc2626" data-c="Red"   ></div>
+              <div class="sw"     style="background:#2563eb" data-c="Blue"  ></div>
+              <div class="sw"     style="background:#16a34a" data-c="Green" ></div>
+              <div class="sw"     style="background:#ca8a04" data-c="Yellow"></div>
+              <div class="sw"     style="background:linear-gradient(135deg,#888,#eee)" data-c="Silver"></div>
+              <div class="sw-custom" id="customColBtn">+</div>
+              <input type="color" id="cpick" data-action="cpick" style="opacity:0;position:absolute;pointer-events:none">
               <input type="hidden" id="s-col" value="White">
             </div>
           </div>
@@ -615,10 +622,10 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
           <div id="multiColSection" style="display:none;">
             <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Select up to 4 colours for your AMS multi-colour print. Tap a slot to pick.</p>
             <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-              <div class="mc-slot" id="mc0" onclick="pickMC(0)" style="background:#f0f0f0;" title="Colour 1">1</div>
-              <div class="mc-slot" id="mc1" onclick="pickMC(1)" style="background:#f97316;" title="Colour 2">2</div>
-              <div class="mc-slot" id="mc2" onclick="pickMC(2)" style="background:#151515;color:rgba(255,255,255,.7)" title="Colour 3">3</div>
-              <div class="mc-slot" id="mc3" onclick="pickMC(3)" style="background:#2563eb;color:rgba(255,255,255,.7)" title="Colour 4">4</div>
+              <div class="mc-slot" id="mc0" data-mcslot="0" style="background:#f0f0f0;" title="Colour 1">1</div>
+              <div class="mc-slot" id="mc1" data-mcslot="1" style="background:#f97316;" title="Colour 2">2</div>
+              <div class="mc-slot" id="mc2" data-mcslot="2" style="background:#151515;color:rgba(255,255,255,.7)" title="Colour 3">3</div>
+              <div class="mc-slot" id="mc3" data-mcslot="3" style="background:#2563eb;color:rgba(255,255,255,.7)" title="Colour 4">4</div>
               <input type="color" id="mcPicker" style="opacity:0;position:absolute;pointer-events:none;" onchange="applyMC(this.value)">
             </div>
             <div style="font-size:11px;color:var(--muted);margin-top:10px;">&#x2139;&#xFE0F; Bambu Lab AMS &mdash; up to 4 filament colours per print</div>
@@ -920,6 +927,38 @@ function initLinkPreview() {
 
 /* ─── Bind all buttons (mobile-safe) ────────────── */
 function bindAll() {
+  /* ── matcards ── */
+  document.querySelectorAll('[data-mat]').forEach(function(card){
+    function doMat(e){ e.preventDefault(); e.stopPropagation();
+      selMat(card, card.dataset.mat, parseFloat(card.dataset.matp)); }
+    card.addEventListener('touchstart', doMat, {passive:false});
+    card.addEventListener('click', doMat);
+  });
+  /* ── colour swatches ── */
+  document.querySelectorAll('.sw').forEach(function(sw){
+    function doSw(e){ e.preventDefault(); e.stopPropagation(); selCol(sw); }
+    sw.addEventListener('touchstart', doSw, {passive:false});
+    sw.addEventListener('click', doSw);
+  });
+  /* ── custom colour button ── */
+  var ccBtn = document.getElementById('customColBtn');
+  if(ccBtn){
+    function doCc(e){ e.preventDefault(); e.stopPropagation(); document.getElementById('cpick').click(); }
+    ccBtn.addEventListener('touchstart', doCc, {passive:false});
+    ccBtn.addEventListener('click', doCc);
+  }
+  /* ── colour picker change ── */
+  var cpick = document.getElementById('cpick');
+  if(cpick) cpick.addEventListener('change', function(){ custCol(this.value); });
+  /* ── mc picker change ── */
+  var mcp = document.getElementById('mcPicker');
+  if(mcp) mcp.addEventListener('change', function(){ applyMC(this.value); });
+  /* ── mc slots ── */
+  document.querySelectorAll('[data-mcslot]').forEach(function(slot){
+    function doSlot(e){ e.preventDefault(); e.stopPropagation(); pickMC(parseInt(slot.dataset.mcslot)); }
+    slot.addEventListener('touchstart', doSlot, {passive:false});
+    slot.addEventListener('click', doSlot);
+  });
   /* step buttons */
   document.querySelectorAll('[data-step]').forEach(function(btn){
     function go(e){ e.preventDefault(); e.stopPropagation(); goStep(btn.dataset.step); }
@@ -946,12 +985,7 @@ function bindAll() {
     trk.addEventListener('touchstart', doToggle, { passive:false });
     trk.addEventListener('click',      doToggle);
   }
-  /* mc slots */
-  document.querySelectorAll('.mc-slot').forEach(function(slot){
-    function doSlot(e){ e.preventDefault(); e.stopPropagation(); pickMC(parseInt(slot.id.replace('mc',''))); }
-    slot.addEventListener('touchstart', doSlot, { passive:false });
-    slot.addEventListener('click',      doSlot);
-  });
+
   /* file change for camera restore */
   var fi = document.getElementById('fi');
   if (fi) fi.addEventListener('change', function(){ saveState(); handleFiles(this.files); });
