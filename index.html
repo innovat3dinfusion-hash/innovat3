@@ -483,8 +483,8 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
             <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Colour</div>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--white);">
               <div class="toggle-wrap">
-                <input type="checkbox" id="multiCol" onchange="toggleMultiCol(this);calcPrice();" style="display:none;">
-                <div class="toggle-track" id="toggleTrack"><div class="toggle-thumb"></div></div>
+                <input type="checkbox" id="multiCol" style="display:none;">
+                <div class="toggle-track" id="toggleTrack" data-action="toggle-colour"><div class="toggle-thumb"></div></div>
               </div>
               MULTI-COLOUR <span style="color:var(--orange);margin-left:4px;">(+15%)</span>
             </label>
@@ -624,20 +624,27 @@ let step=1,files=[],matP=1.2,matN='PLA',colV='White';
 
 
 // ── Touch-safe navigation via event delegation ──
-document.addEventListener('click', function(e){
-  const btn = e.target.closest('[data-step]');
-  if(btn){ e.preventDefault(); goStep(parseInt(btn.dataset.step)); }
-});
-document.addEventListener('touchend', function(e){
-  const btn = e.target.closest('[data-step]');
-  if(btn){ e.preventDefault(); goStep(parseInt(btn.dataset.step)); }
-}, {passive:false});
-document.addEventListener('click', function(e){
-  if(e.target.closest('[data-action="submit"]')){ e.preventDefault(); submitOrder(); }
-});
-document.addEventListener('touchend', function(e){
-  if(e.target.closest('[data-action="submit"]')){ e.preventDefault(); submitOrder(); }
-},{passive:false});
+function handleTap(e){
+  // Step navigation
+  const stepBtn = e.target.closest('[data-step]');
+  if(stepBtn){ e.preventDefault(); goStep(parseInt(stepBtn.dataset.step)); return; }
+  // Submit
+  if(e.target.closest('[data-action="submit"]')){ e.preventDefault(); submitOrder(); return; }
+  // Multi-colour toggle
+  if(e.target.closest('[data-action="toggle-colour"]')){
+    e.preventDefault();
+    const cb = document.getElementById('multiCol');
+    cb.checked = !cb.checked;
+    toggleMultiCol(cb);
+    calcPrice();
+    return;
+  }
+  // MC colour slot picker
+  const mcSlot = e.target.closest('.mc-slot');
+  if(mcSlot){ e.preventDefault(); const idx=parseInt(mcSlot.id.replace('mc','')); pickMC(idx); return; }
+}
+document.addEventListener('click', handleTap);
+document.addEventListener('touchend', handleTap, {passive:false});
 
 function goStep(n){
   // read values immediately — no validation blocking on mobile
@@ -803,16 +810,7 @@ document.addEventListener('change', function(e){
   if(e.target && e.target.id === 'fi') saveState();
 });
 
-// Make toggle track clickable
-document.addEventListener('DOMContentLoaded',()=>{
-  const track = document.getElementById('toggleTrack');
-  if(track) track.addEventListener('click',()=>{
-    const cb = document.getElementById('multiCol');
-    cb.checked = !cb.checked;
-    toggleMultiCol(cb);
-    calcPrice();
-  });
-});
+
 
 
 </script>
