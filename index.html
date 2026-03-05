@@ -243,8 +243,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.97);backdrop-fil
 .btn-submit .spin{display:none;width:20px;height:20px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;}
 .btn-submit.loading span{display:none;}.btn-submit.loading .spin{display:block;}
 .divider{border:none;border-top:1px solid var(--border);margin:26px 0;}
-.success-panel{display:none;padding:60px 44px;text-align:center;animation:fadein .5s ease;}
-.success-panel.show{display:block;}
+.success-panel{display:none;position:absolute;inset:0;z-index:10;padding:60px 44px;text-align:center;animation:fadein .5s ease;background:var(--card);border-radius:4px;overflow-y:auto;}
+.success-panel.show{display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .succ-title{font-family:var(--display);font-weight:900;font-size:42px;letter-spacing:-1px;margin-bottom:10px;}
 .succ-title em{color:var(--orange);font-style:normal;}
 .succ-sub{color:var(--muted);font-size:15px;line-height:1.8;}
@@ -710,8 +710,8 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
 </div></footer></body></html>
 
 <script>
-const GS = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec';
-const WA  = '27725883875';
+const GS     = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec';
+const WA     = '27725883875';
 
 /* ─── State ─────────────────────────────────────── */
 let step = 1, files = [], matP = 1.2, matN = 'PLA', colV = 'White';
@@ -872,17 +872,22 @@ async function submitOrder() {
     priceEst: document.getElementById('priceVal').textContent
   };
   var wm = encodeURIComponent('\uD83D\uDDA8 *NEW INNOVAT3 ORDER*\nRef: ' + ref + '\n\uD83D\uDC64 ' + p.name + ' \u00b7 ' + p.phone + '\n\uD83E\uDDF1 ' + p.material + ' \u00b7 ' + p.colour + '\n\uD83D\uDCB0 ' + p.priceEst + '\n\uD83D\uDCE7 ' + p.email);
+  // Send to Google Sheets
   try { await fetch(GS, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p) }); } catch(e) {}
+
   document.getElementById('conf-phone').textContent = p.phone;
   document.getElementById('conf-email').textContent = p.email;
   document.getElementById('conf-ref').textContent   = '\uD83D\uDCCB Ref: ' + ref;
   document.getElementById('waLink').href = 'https://wa.me/' + WA + '?text=' + wm;
-  document.querySelector('.ftabs').style.display = 'none';
-  document.querySelector('.fbody').style.display  = 'none';
+  // Show success panel overlaying the form-card (position:absolute)
   document.getElementById('succPanel').classList.add('show');
   document.getElementById('progFill').style.width = '100%';
   try { sessionStorage.clear(); } catch(e) {}
   btn.classList.remove('loading'); btn.disabled = false;
+  setTimeout(function(){
+    var fc = document.getElementById('formCard');
+    if(fc) fc.scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 100);
 }
 
 /* ─── Session restore (camera reload) ───────────── */
