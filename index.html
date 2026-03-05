@@ -243,8 +243,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.97);backdrop-fil
 .btn-submit .spin{display:none;width:20px;height:20px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;}
 .btn-submit.loading span{display:none;}.btn-submit.loading .spin{display:block;}
 .divider{border:none;border-top:1px solid var(--border);margin:26px 0;}
-.success-panel{display:none;position:absolute;inset:0;z-index:10;padding:60px 44px;text-align:center;animation:fadein .5s ease;background:var(--card);border-radius:4px;overflow-y:auto;}
-.success-panel.show{display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.success-panel{display:none;position:fixed;inset:0;z-index:999;padding:60px 32px;text-align:center;animation:fadein .5s ease;background:var(--black);overflow-y:auto;}
+.success-panel.show{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;}
 .succ-title{font-family:var(--display);font-weight:900;font-size:42px;letter-spacing:-1px;margin-bottom:10px;}
 .succ-title em{color:var(--orange);font-style:normal;}
 .succ-sub{color:var(--muted);font-size:15px;line-height:1.8;}
@@ -884,10 +884,8 @@ async function submitOrder() {
   document.getElementById('progFill').style.width = '100%';
   try { sessionStorage.clear(); } catch(e) {}
   btn.classList.remove('loading'); btn.disabled = false;
-  setTimeout(function(){
-    var fc = document.getElementById('formCard');
-    if(fc) fc.scrollIntoView({ behavior:'smooth', block:'start' });
-  }, 100);
+  // Fixed overlay covers full screen — scroll to top so it's fully visible
+  setTimeout(function(){ window.scrollTo({top:0, behavior:'smooth'}); }, 100);
 }
 
 /* ─── Session restore (camera reload) ───────────── */
