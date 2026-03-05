@@ -671,9 +671,6 @@ function calcPrice(){
   const wtEl=document.getElementById('weightHint');
   if(wtEl) wtEl.textContent='~'+wt+'g estimated filament';
 }
-  const est=Math.max(150,Math.round((w*d*h/1e3)*matP*(resM[res]||1)*qty+80));
-  document.getElementById('priceVal').textContent='R '+est.toLocaleString('en-ZA');
-}
 function buildSumm(){
   const rows=[['Name',document.getElementById('c-name').value],['Email',document.getElementById('c-email').value],['Phone',document.getElementById('c-phone').value],['Company',document.getElementById('c-company').value||'—'],['City',document.getElementById('c-city').value||'—'],['Files',files.length?files.map(f=>f.name).join(', '):(document.getElementById('c-idea').value||'—')],['W×D×H',`${document.getElementById('s-w').value||'?'} × ${document.getElementById('s-d').value||'?'} × ${document.getElementById('s-h').value||'?'} mm`],['Qty',document.getElementById('s-qty').value],['Resolution',document.getElementById('s-res').options[document.getElementById('s-res').selectedIndex].text],['Material',matN],['Colour',colV],['Link',document.getElementById('c-link')&&document.getElementById('c-link').value?document.getElementById('c-link').value:'None'],['Est. Price',document.getElementById('priceVal').textContent]];
   document.getElementById('summBox').innerHTML=rows.map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);"><span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">${k}</span><span style="font-size:14px;font-weight:600;max-width:58%;text-align:right;">${v}</span></div>`).join('');
