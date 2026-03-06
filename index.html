@@ -976,15 +976,8 @@ function bindAll() {
   /* ── colour picker change ── */
   var cpick = document.getElementById('cpick');
   if(cpick) cpick.addEventListener('change', function(){ custCol(this.value); });
-  /* ── mc picker change ── */
-  var mcp = document.getElementById('mcPicker');
-  if(mcp) mcp.addEventListener('change', function(){ applyMC(this.value); });
-  /* ── mc slots ── */
-  document.querySelectorAll('[data-mcslot]').forEach(function(slot){
-    function doSlot(e){ e.preventDefault(); e.stopPropagation(); pickMC(parseInt(slot.dataset.mcslot)); }
-    slot.addEventListener('touchstart', doSlot, {passive:false});
-    slot.addEventListener('click', doSlot);
-  });
+  /* ── mc picker removed (inline inputs used instead) ── */
+
   /* step buttons */
   document.querySelectorAll('[data-step]').forEach(function(btn){
     function go(e){ e.preventDefault(); e.stopPropagation(); goStep(btn.dataset.step); }
