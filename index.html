@@ -182,7 +182,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.97);backdrop-fil
 /* form */
 .form-wrap{max-width:1280px;margin:0 auto;padding:0 40px 80px;position:relative;}
 .side-amb{position:absolute;right:-14px;top:40px;z-index:0;}
-.form-card{background:var(--card);border:1px solid var(--border);border-radius:4px;position:relative;overflow:hidden;}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:4px;position:relative;overflow:visible;}
 .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--orange2),transparent 80%);}
 .ftabs{display:flex;border-bottom:1px solid var(--border);}
 .ftab{padding:16px 26px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted);cursor:pointer;border-right:1px solid var(--border);transition:all .2s;display:flex;align-items:center;gap:8px;text-transform:uppercase;}
@@ -664,6 +664,8 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
         <div class="form-nav" style="margin-top:10px;"><button class="btn-back" data-step="2">&larr; BACK</button></div>
       </div>
 
+</div>
+
       <!-- STEP 4: CONFIRM -->
       <div class="panel" id="p4">
         <div class="ptitle"><h2>Review &amp; <em>Submit</em></h2><p>Almost there &#x2699;&#xFE0F;</p></div>
@@ -908,7 +910,7 @@ function saveState() {
     sessionStorage.setItem('i3_matp', matP);
     sessionStorage.setItem('i3_col', colV);
     sessionStorage.setItem('i3_files', JSON.stringify(files.map(function(f){ return f.name; })));
-    sessionStorage.setItem('i3_cam', '1');
+    // i3_cam only set before camera opens, not here
   } catch(e) {}
 }
 function restoreState() {
@@ -925,7 +927,7 @@ function restoreState() {
     var names = JSON.parse(sessionStorage.getItem('i3_files')||'[]');
     if (names.length) document.getElementById('fileChips').innerHTML = names.map(function(n){ return '<div class="chip" style="opacity:.6;">&#x2B21; '+n+' <small>(re-select)</small></div>'; }).join('');
     calcPrice();
-    goStep(2);
+    // restored - don't force step change
   } catch(e) {}
 }
 
