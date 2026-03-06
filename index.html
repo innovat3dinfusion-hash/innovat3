@@ -710,7 +710,7 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
 </div></footer></body></html>
 
 <script>
-const GS     = 'https://script.google.com/macros/s/AKfycby351GGPAPFkg41WB3hK7pdVpNIGBfJiorps5GSdSUZe7YMTkdTuSJY4MA0TeSvnezA/exec';
+const GS     = 'https://script.google.com/macros/s/AKfycbwt8VmKuFaAgFLM5o3u41D5PiQuSdxpuNVzpjXFZNmqAycB0jN44ee3x1Wh-K2b5bE/exec';
 const WA     = '27725883875';
 
 /* ─── State ─────────────────────────────────────── */
@@ -872,8 +872,12 @@ async function submitOrder() {
     priceEst: document.getElementById('priceVal').textContent
   };
   var wm = encodeURIComponent('\uD83D\uDDA8 *NEW INNOVAT3 ORDER*\nRef: ' + ref + '\n\uD83D\uDC64 ' + p.name + ' \u00b7 ' + p.phone + '\n\uD83E\uDDF1 ' + p.material + ' \u00b7 ' + p.colour + '\n\uD83D\uDCB0 ' + p.priceEst + '\n\uD83D\uDCE7 ' + p.email);
-  // Send to Google Sheets (fire and forget — don't await so UI isn't blocked)
-  try { fetch(GS, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(p) }); } catch(e) {}
+  // Send to Google Sheets via GET request with payload in URL (proven to work)
+  try {
+    var gsUrl = GS + '?payload=' + encodeURIComponent(JSON.stringify(p));
+    var img = new Image();
+    img.src = gsUrl;
+  } catch(e) {}
 
   document.getElementById('conf-phone').textContent = p.phone;
   document.getElementById('conf-email').textContent = p.email;
