@@ -879,9 +879,24 @@ function submitOrder() {
   // Encode first image as base64 if available, then send to GS
   function sendToGS(payload) {
     try {
+      var url = GS + '?payload=' + encodeURIComponent(JSON.stringify(payload));
+      // Debug: show what URL is being called
+      var dbg = document.getElementById('gsDebug');
+      if (dbg) {
+        dbg.style.display = 'block';
+        dbg.textContent = 'Sending to: ' + url.slice(0, 80) + '...';
+      }
+      // Method 1: Image ping (fire and forget)
       var imgEl = new Image();
-      imgEl.src = GS + '?payload=' + encodeURIComponent(JSON.stringify(payload));
-    } catch(e) {}
+      imgEl.onload = function() { if(dbg) dbg.textContent = 'GS: SUCCESS'; };
+      imgEl.onerror = function() { if(dbg) dbg.textContent = 'GS: ERROR (image ping failed)'; };
+      imgEl.src = url;
+      // Method 2: fetch as backup
+      fetch(url, {mode:'no-cors'}).catch(function(){});
+    } catch(e) {
+      var dbg = document.getElementById('gsDebug');
+      if (dbg) { dbg.style.display='block'; dbg.textContent = 'GS exception: ' + e.message; }
+    }
   }
 
   // If there's an image file, read it as base64 and include it
