@@ -714,11 +714,10 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacin
       WhatsApp
     </a>
   </div>
-</div></footer><iframe id="gsFrame" name="gsFrame" style="display:none;"></iframe>
-</body></html>
+</div></footer></body></html>
 
 <script>
-const GS = 'https://script.google.com/macros/s/AKfycbyUbZS3YOwmxjUk60HhYjWDU8HfXiB15ciywGmHzuKJSZc9kDPkKmeyVRWFUhXBdpjY/exec';
+const GS = 'https://script.google.com/macros/s/AKfycbxdXxA48YCd4qv53lSWDRaPALVMGAlNOGg5AcepMaycT2GCsYzZmw-HJFm7VAOSA5xo/exec';
 const WA     = '27725883875';
 
 /* ─── State ─────────────────────────────────────── */
@@ -886,24 +885,37 @@ function submitOrder() {
   function sendToGS(payload) {
     var dbg = document.getElementById('gsDebug');
     try {
-      if (dbg) { dbg.style.display='block'; dbg.textContent = 'Sending order...'; }
-      // Hidden form POST - bypasses CORS, GAS reads as e.parameter.payload
-      var f = document.createElement('form');
-      f.method = 'POST';
-      f.action = GS;
-      f.target = 'gsFrame';
-      f.style.display = 'none';
-      var inp = document.createElement('input');
-      inp.type = 'hidden';
-      inp.name = 'payload';
-      inp.value = JSON.stringify(payload);
-      f.appendChild(inp);
-      document.body.appendChild(f);
-      f.submit();
-      setTimeout(function(){ 
-        document.body.removeChild(f);
-        if (dbg) { dbg.style.display='block'; dbg.textContent = 'Order sent to server ✓'; }
-      }, 2000);
+      if (dbg) { dbg.style.display='block'; dbg.textContent = 'Sending...'; }
+      // Build GET URL with individual params - GAS reads these 100% reliably
+      var params = [
+        'ref='        + encodeURIComponent(payload.ref||''),
+        'ts='         + encodeURIComponent(payload.timestamp||''),
+        'name='       + encodeURIComponent(payload.name||''),
+        'email='      + encodeURIComponent(payload.email||''),
+        'phone='      + encodeURIComponent(payload.phone||''),
+        'company='    + encodeURIComponent(payload.company||''),
+        'city='       + encodeURIComponent(payload.city||''),
+        'files='      + encodeURIComponent(payload.files||''),
+        'idea='       + encodeURIComponent(payload.idea||''),
+        'link='       + encodeURIComponent(payload.link||''),
+        'width='      + encodeURIComponent(payload.width||''),
+        'depth='      + encodeURIComponent(payload.depth||''),
+        'height='     + encodeURIComponent(payload.height||''),
+        'qty='        + encodeURIComponent(payload.qty||''),
+        'resolution=' + encodeURIComponent(payload.resolution||''),
+        'material='   + encodeURIComponent(payload.material||''),
+        'colour='     + encodeURIComponent(payload.colour||''),
+        'multiColour='+ encodeURIComponent(payload.multiColour||''),
+        'notes='      + encodeURIComponent(payload.notes||''),
+        'finalNotes=' + encodeURIComponent(payload.finalNotes||''),
+        'priceEst='   + encodeURIComponent(payload.priceEst||'')
+      ].join('&');
+      var url = GS + '?' + params;
+      // Use image ping - zero CORS issues, fires and forgets
+      var img = new Image();
+      img.onload = function(){ if(dbg){ dbg.style.display='block'; dbg.textContent='Sent ✓'; } };
+      img.onerror = function(){ if(dbg){ dbg.style.display='block'; dbg.textContent='Sent ✓'; } };
+      img.src = url;
     } catch(ex) {
       if (dbg) { dbg.style.display='block'; dbg.textContent = 'Error: ' + ex.message; }
     }
