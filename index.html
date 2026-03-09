@@ -393,7 +393,7 @@ footer{
 
 <!-- HERO -->
 <section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto">
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" disablepictureinpicture>
     <source src="Electric.mp4" type="video/mp4">
   </video>
   <div class="hero-video-overlay"></div>
@@ -986,11 +986,32 @@ function initGallery() {
   }
 }
 
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',function(){bindAll();initDragDrop();initLinkPreview();initGallery();});
-}else{
-  bindAll();initDragDrop();initLinkPreview();initGallery();
+function initVideo() {
+  var v = document.getElementById('heroVideo');
+  if (!v) return;
+  v.muted = true;
+  var promise = v.play();
+  if (promise !== undefined) {
+    promise.catch(function() {
+      // Autoplay blocked - try again on first interaction
+      document.addEventListener('click', function() { v.play(); }, { once: true });
+      document.addEventListener('touchstart', function() { v.play(); }, { once: true });
+      document.addEventListener('scroll', function() { v.play(); }, { once: true });
+    });
+  }
 }
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',function(){bindAll();initDragDrop();initLinkPreview();initGallery();initVideo();});
+}else{
+  bindAll();initDragDrop();initLinkPreview();initGallery();initVideo();
+}
+
+// Also try playing on window load (after all assets ready)
+window.addEventListener('load', function(){
+  var v = document.getElementById('heroVideo');
+  if (v) { v.muted = true; v.play().catch(function(){}); }
+});
 </script>
 </body>
 </html>
